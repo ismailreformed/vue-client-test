@@ -81,6 +81,7 @@
                 color="red darken-1"
                 text
                 @click="close"
+                :loading="saving"
               >
                 Cancel
               </v-btn>
@@ -88,6 +89,7 @@
                 color="blue darken-1"
                 text
                 @click="save"
+                :loading="saving"
               >
                 Save
               </v-btn>
@@ -138,6 +140,7 @@
       loading: false,
       loadingUsers: false,
       loadingRoles: false,
+      saving: false,
       headers: [
         {
           text: 'Name',
@@ -269,6 +272,7 @@
 
       save () {
         //TODO: will have to fixed update loading issues
+        this.saving = true
         if (this.editedIndex > -1) {
           const updateData = {
             userId: this.editedItem.userId,
@@ -278,10 +282,16 @@
             .then(response => {
                 this.initialize()
             })
+            .finally(()=> {
+              this.saving = false
+            })
         } else {
             this.$axios.post('/user-role', this.editedItem)
             .then(response => {
                 this.userRoles.push(this.editedItem)
+            })
+            .finally(()=> {
+              this.saving = false
             })
         }
         this.close()
