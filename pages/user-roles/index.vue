@@ -271,7 +271,6 @@
         //TODO: will have to fixed update loading issues
         if (this.editedIndex > -1) {
           const updateData = {
-            id: this.editedItem.id,
             userId: this.editedItem.userId,
             roleId: this.editedItem.roleId
           }
